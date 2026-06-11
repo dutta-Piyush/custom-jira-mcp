@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>devopsjira-mcp</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-dim: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79c0ff;
+            --green: #3fb950;
+            --orange: #d29922;
+            --purple: #bc8cff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            border-bottom: 1px solid var(--border);
+            padding: 40px 20px 32px;
+        }
+        .header-inner {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .header h1 code {
+            font-weight: 600;
+            font-size: 1.75rem;
+            color: var(--text);
+        }
+        .header .tagline {
+            color: var(--text-dim);
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+        .header-meta {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .header-meta a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .header-meta a:hover { text-decoration: underline; }
+        .header-meta .sep { color: var(--border); }
+        .pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+
+        .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+        section:last-child { border-bottom: none; }
+        h2 { font-size: 1.35rem; font-weight: 600; margin-bottom: 16px; }
+        h3 { font-size: 1.05rem; margin: 20px 0 8px; }
+
+        pre {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px 16px;
+            overflow-x: auto;
+            font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin: 8px 0;
+        }
+        code {
+            font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+            font-size: 0.875rem;
+        }
+        .ci {
+            background: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        .g { color: var(--green); }
+
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td { text-align: left; padding: 8px 12px; border: 1px solid var(--border); font-size: 0.875rem; }
+        th { background: var(--surface); font-weight: 600; }
+        td code { color: var(--accent); }
+        .tag-r { background: #1a3a2a; color: var(--green); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+        .tag-w { background: #3d2e0a; color: var(--orange); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 12px 0; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 16px; }
+        .card h4 { font-size: 0.9rem; margin-bottom: 6px; color: var(--accent); }
+        .card p { font-size: 0.85rem; color: var(--text-dim); }
+
+        .term {
+            background: #0a0e14;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            font-family: 'Cascadia Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.7;
+        }
+        .term .s { color: var(--orange); }
+        .term .ok { color: var(--green); }
+        .term .d { color: var(--text-dim); }
+        .term .h { color: var(--accent); }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 20px; text-align: center; font-size: 0.78rem; color: var(--text-dim); }
+        .topbar a { color: var(--accent); }
+        footer { text-align: center; padding: 32px 20px; color: var(--text-dim); font-size: 0.8rem; }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="topbar">Maintained by the GRC &amp; Legal IT team &mdash; issues or questions? Reach out on <a href="https://github.deutsche-boerse.de/at384/devopsjira-mcp/issues" target="_blank" rel="noopener noreferrer">GitHub Issues</a></div>
+
+<div class="header">
+    <div class="header-inner">
+        <h1><code>devopsjira-mcp</code></h1>
+        <p class="tagline">MCP server that connects GitHub Copilot to DevOps Jira. 62 tools &mdash; full issue lifecycle, sprint management, epics, JSM service desk, bulk ops, and more. Built in Go for ~30ms cold start with automatic retry. <strong>No destructive operations</strong> &mdash; delete is disabled by design.</p>
+        <div class="header-meta">
+            <a href="https://github.deutsche-boerse.de/at384/devopsjira-mcp" target="_blank" rel="noopener noreferrer">GitHub &nearr;</a>
+            <span class="sep">|</span>
+            <a href="https://devopsjira.deutsche-boerse.com/secure/ViewProfile.jspa" target="_blank" rel="noopener noreferrer">Create PAT &nearr;</a>
+            <span class="sep">|</span>
+            <span class="pill">Go 1.24</span>
+            <span class="pill">MCP v1.0</span>
+            <span class="pill">62 tools</span>
+            <span class="pill" style="border-color:#3fb950;color:#3fb950">No Delete</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+<!-- Quick Start -->
+<section>
+    <h2>Quick Start</h2>
+
+    <h3>1. Create a Personal Access Token</h3>
+    <p style="color:var(--text-dim)">Go to <a href="https://devopsjira.deutsche-boerse.com/secure/ViewProfile.jspa" target="_blank" rel="noopener noreferrer">DevOps Jira &rarr; Profile &rarr; Personal Access Tokens</a> and generate a new token.</p>
+
+    <h3>2. Clone &amp; build</h3>
+<pre><span class="g">git clone</span> https://github.deutsche-boerse.de/at384/devopsjira-mcp.git
+<span class="g">cd</span> devopsjira-mcp
+<span class="g">go build</span> -o devopsjira-mcp.exe .</pre>
+
+    <div class="term">
+        <span class="d"># Build output:</span><br>
+        <span class="ok">devopsjira-mcp.exe</span> <span class="d">(~12MB, zero dependencies)</span><br>
+        <br>
+        <span class="d"># Cold start: ~30ms</span><br>
+        <span class="d"># HTTP/2 connection pooling, 30 idle conns</span><br>
+        <span class="d"># Auto-retry on 429/5xx with exponential backoff</span><br>
+        <span class="d"># Single binary &mdash; no Python, no venv, no pip</span>
+    </div>
+
+    <h3>3. Add to VS Code <code class="ci">mcp.json</code></h3>
+<pre>{
+  "servers": {
+    "devopsjira": {
+      "command": "C:/path/to/devopsjira-mcp.exe",
+      "env": {
+        "DEVOPSJIRA_URL": "https://devopsjira.deutsche-boerse.com",
+        "DEVOPSJIRA_PAT": "your-token-here"
+      },
+      "type": "stdio"
+    }
+  }
+}</pre>
+
+    <h3>4. Reload VS Code</h3>
+    <p style="color:var(--text-dim)"><code class="ci">Ctrl+Shift+P</code> &rarr; <strong>Developer: Reload Window</strong>. The <code class="ci">devopsjira</code> server appears in your MCP list. Done.</p>
+    <p style="color:var(--text-dim);margin-top:12px"><strong>Note:</strong> Config lives at <code class="ci">%APPDATA%\Code\User\mcp.json</code>. Once set up, it works from any workspace.</p>
+</section>
+
+<!-- Why -->
+<section>
+    <h2>Why Use This</h2>
+    <p style="color:var(--text-dim);margin-bottom:12px;">Do everything you do in DevOps Jira &mdash; from VS Code chat. No context switching. 65 tools covering the full Jira API.</p>
+    <div class="cards">
+        <div class="card"><h4>Full issue lifecycle</h4><p>Create, search, assign, transition, comment, close, archive. JQL for anything. Bulk operations across multiple issues at once. <strong>No delete</strong> &mdash; data is never destroyed.</p></div>
+        <div class="card"><h4>Sprint &amp; Agile management</h4><p>Create sprints, move issues, start/complete sprints, get velocity, rank backlog items, manage epics.</p></div>
+        <div class="card"><h4>JSM Service Desk</h4><p>Create requests, check SLA timers, get approvals, manage queues — full portal operations without a browser.</p></div>
+        <div class="card"><h4>Blazing fast &amp; reliable</h4><p>Go binary with HTTP/2, connection pooling, auto-retry on rate limits and server errors. TLS skip for Zscaler.</p></div>
+    </div>
+</section>
+
+<!-- Tools -->
+<section>
+    <h2>Tools (62)</h2>
+
+    <h3>Issues &mdash; 5 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>search_issues</code> <span class="tag-r">READ</span></td><td>JQL search with full field details</td></tr>
+        <tr><td><code>get_issue</code> <span class="tag-r">READ</span></td><td>Full issue details (description, comments, links, subtasks, time tracking)</td></tr>
+        <tr><td><code>create_issue</code> <span class="tag-w">WRITE</span></td><td>Create any issue type with labels, components, fix versions</td></tr>
+        <tr><td><code>update_issue</code> <span class="tag-w">WRITE</span></td><td>Update any field on an issue</td></tr>
+        <tr><td><code>assign_issue</code> <span class="tag-w">WRITE</span></td><td>Assign/unassign</td></tr>
+    </table>
+
+    <h3>Transitions &mdash; 2 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>get_transitions</code> <span class="tag-r">READ</span></td><td>Available workflow transitions with IDs</td></tr>
+        <tr><td><code>transition_issue</code> <span class="tag-w">WRITE</span></td><td>Move through workflow (with optional comment/resolution)</td></tr>
+    </table>
+
+    <h3>Comments &amp; Watchers &mdash; 4 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>get_comments</code> <span class="tag-r">READ</span></td><td>List comments with authors</td></tr>
+        <tr><td><code>add_comment</code> <span class="tag-w">WRITE</span></td><td>Add comment</td></tr>
+        <tr><td><code>get_watchers</code> <span class="tag-r">READ</span></td><td>List watchers</td></tr>
+        <tr><td><code>add_watcher</code> <span class="tag-w">WRITE</span></td><td>Add watcher</td></tr>
+    </table>
+
+    <h3>Worklog &amp; Links &mdash; 4 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>add_worklog</code> <span class="tag-w">WRITE</span></td><td>Log time (2h, 30m, 1d)</td></tr>
+        <tr><td><code>link_issues</code> <span class="tag-w">WRITE</span></td><td>Link issues (Blocks, Relates, etc.)</td></tr>
+        <tr><td><code>get_link_types</code> <span class="tag-r">READ</span></td><td>Available link types</td></tr>
+        <tr><td><code>get_remote_links</code> <span class="tag-r">READ</span></td><td>External links on issue</td></tr>
+    </table>
+
+    <h3>Remote Links &mdash; 1 tool</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>add_remote_link</code> <span class="tag-w">WRITE</span></td><td>Add external URL link to issue</td></tr>
+    </table>
+
+    <h3>Labels &mdash; 1 tool</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>add_labels</code> <span class="tag-w">WRITE</span></td><td>Add labels to issue</td></tr>
+    </table>
+
+    <h3>Projects &mdash; 3 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>list_projects</code> <span class="tag-r">READ</span></td><td>All accessible projects with leads</td></tr>
+        <tr><td><code>get_project</code> <span class="tag-r">READ</span></td><td>Project details (issue types, components, versions)</td></tr>
+        <tr><td><code>get_project_roles</code> <span class="tag-r">READ</span></td><td>Project roles</td></tr>
+    </table>
+
+    <h3>Versions &mdash; 3 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>list_versions</code> <span class="tag-r">READ</span></td><td>Project versions with release status</td></tr>
+        <tr><td><code>create_version</code> <span class="tag-w">WRITE</span></td><td>Create a new version</td></tr>
+        <tr><td><code>release_version</code> <span class="tag-w">WRITE</span></td><td>Mark version as released</td></tr>
+    </table>
+
+    <h3>Components &mdash; 2 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>list_components</code> <span class="tag-r">READ</span></td><td>Project components</td></tr>
+        <tr><td><code>create_component</code> <span class="tag-w">WRITE</span></td><td>Create component with lead</td></tr>
+    </table>
+
+    <h3>Boards &amp; Sprints (Agile) &mdash; 10 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>list_boards</code> <span class="tag-r">READ</span></td><td>Scrum/Kanban boards</td></tr>
+        <tr><td><code>list_sprints</code> <span class="tag-r">READ</span></td><td>Active &amp; future sprints</td></tr>
+        <tr><td><code>get_sprint_issues</code> <span class="tag-r">READ</span></td><td>Issues in a sprint</td></tr>
+        <tr><td><code>get_board_backlog</code> <span class="tag-r">READ</span></td><td>Backlog items</td></tr>
+        <tr><td><code>move_to_sprint</code> <span class="tag-w">WRITE</span></td><td>Move issues into sprint</td></tr>
+        <tr><td><code>create_sprint</code> <span class="tag-w">WRITE</span></td><td>Create new sprint</td></tr>
+        <tr><td><code>start_sprint</code> <span class="tag-w">WRITE</span></td><td>Start a sprint</td></tr>
+        <tr><td><code>complete_sprint</code> <span class="tag-w">WRITE</span></td><td>Close/complete sprint</td></tr>
+        <tr><td><code>get_velocity</code> <span class="tag-r">READ</span></td><td>Velocity across recent sprints</td></tr>
+        <tr><td><code>rank_issues</code> <span class="tag-w">WRITE</span></td><td>Reorder backlog priority</td></tr>
+    </table>
+
+    <h3>Epics &mdash; 2 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>get_epic_issues</code> <span class="tag-r">READ</span></td><td>Issues belonging to an epic</td></tr>
+        <tr><td><code>move_to_epic</code> <span class="tag-w">WRITE</span></td><td>Move issues into an epic</td></tr>
+    </table>
+
+    <h3>Users &mdash; 2 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>search_users</code> <span class="tag-r">READ</span></td><td>Find users by name/email</td></tr>
+        <tr><td><code>get_myself</code> <span class="tag-r">READ</span></td><td>Your Jira profile &amp; timezone</td></tr>
+    </table>
+
+    <h3>Attachments &mdash; 1 tool</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>list_attachments</code> <span class="tag-r">READ</span></td><td>List attachments with download URLs</td></tr>
+    </table>
+
+    <h3>Filters &mdash; 2 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>get_my_filters</code> <span class="tag-r">READ</span></td><td>Your saved filters</td></tr>
+        <tr><td><code>create_filter</code> <span class="tag-w">WRITE</span></td><td>Create &amp; favourite a filter</td></tr>
+    </table>
+
+    <h3>Bulk Operations &mdash; 2 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>bulk_transition</code> <span class="tag-w">WRITE</span></td><td>Transition multiple issues at once</td></tr>
+        <tr><td><code>bulk_assign</code> <span class="tag-w">WRITE</span></td><td>Assign multiple issues to one user</td></tr>
+    </table>
+
+    <h3>Metadata &mdash; 4 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>list_issue_types</code> <span class="tag-r">READ</span></td><td>Available issue types</td></tr>
+        <tr><td><code>list_priorities</code> <span class="tag-r">READ</span></td><td>Priority levels</td></tr>
+        <tr><td><code>list_statuses</code> <span class="tag-r">READ</span></td><td>All workflow statuses</td></tr>
+        <tr><td><code>list_fields</code> <span class="tag-r">READ</span></td><td>All fields (including custom)</td></tr>
+    </table>
+
+    <h3>JSM / Service Desk &mdash; 14 tools</h3>
+    <table>
+        <tr><th>Tool</th><th>Description</th></tr>
+        <tr><td><code>list_service_desks</code> <span class="tag-r">READ</span></td><td>All service portals</td></tr>
+        <tr><td><code>list_request_types</code> <span class="tag-r">READ</span></td><td>Request types for a service desk</td></tr>
+        <tr><td><code>get_request_type_fields</code> <span class="tag-r">READ</span></td><td>Required/optional fields for request type</td></tr>
+        <tr><td><code>create_request</code> <span class="tag-w">WRITE</span></td><td>Create a service request</td></tr>
+        <tr><td><code>get_request</code> <span class="tag-r">READ</span></td><td>Request details</td></tr>
+        <tr><td><code>get_my_requests</code> <span class="tag-r">READ</span></td><td>Your requests</td></tr>
+        <tr><td><code>search_requests</code> <span class="tag-r">READ</span></td><td>Search requests by term/status</td></tr>
+        <tr><td><code>get_request_comments</code> <span class="tag-r">READ</span></td><td>Comments on a request</td></tr>
+        <tr><td><code>add_request_comment</code> <span class="tag-w">WRITE</span></td><td>Add public/internal comment</td></tr>
+        <tr><td><code>get_approvals</code> <span class="tag-r">READ</span></td><td>Approval status &amp; decisions</td></tr>
+        <tr><td><code>approve_request</code> <span class="tag-w">WRITE</span></td><td>Approve a request</td></tr>
+        <tr><td><code>get_sla</code> <span class="tag-r">READ</span></td><td>SLA breach info &amp; remaining time</td></tr>
+        <tr><td><code>list_queues</code> <span class="tag-r">READ</span></td><td>Service desk queues with counts</td></tr>
+        <tr><td><code>get_queue_issues</code> <span class="tag-r">READ</span></td><td>Issues in a queue</td></tr>
+    </table>
+</section>
+
+<!-- Usage -->
+<section>
+    <h2>Usage Examples</h2>
+    <p style="color:var(--text-dim);margin-bottom:12px;">Talk to Copilot in VS Code chat. It picks the right tool automatically.</p>
+    <div class="cards">
+        <div class="card"><h4>Search issues</h4><p>"Find all open bugs in PLATE assigned to me"</p></div>
+        <div class="card"><h4>Create &amp; assign</h4><p>"Create a Task in DEVOPS project, priority High, assign to peter.schmidt"</p></div>
+        <div class="card"><h4>Sprint management</h4><p>"Show active sprint for board 42, then move DEVOPS-999 into it"</p></div>
+        <div class="card"><h4>Bulk operations</h4><p>"Transition PLATE-100, PLATE-101, PLATE-102 to Done"</p></div>
+        <div class="card"><h4>Service desk</h4><p>"Create an infrastructure request in Service Desk 3 for new VM provisioning"</p></div>
+        <div class="card"><h4>SLA tracking</h4><p>"Check SLA status for REQ-456 — is it about to breach?"</p></div>
+    </div>
+</section>
+
+<!-- Architecture -->
+<section>
+    <h2>Architecture</h2>
+<pre style="font-size:0.82rem;">
+┌─────────────┐    stdio/JSON-RPC    ┌──────────────────────┐    HTTPS + PAT    ┌────────────────────────────────────┐
+│  VS Code    │ ◄──────────────────► │  devopsjira-mcp      │ ◄──────────────► │  DevOps Jira                       │
+│  Copilot    │                      │  (Go binary, 12MB)   │                  │  devopsjira.deutsche-boerse.com    │
+└─────────────┘                      └──────────────────────┘                  └────────────────────────────────────┘
+                                              │
+                                              ├── Jira REST API v2 (issues, projects, users)
+                                              ├── Agile API (boards, sprints, epics, ranking)
+                                              └── JSM Service Desk API (requests, SLA, queues)
+</pre>
+    <div class="cards">
+        <div class="card"><h4>Transport</h4><p>stdio &mdash; VS Code spawns the binary, communicates via JSON-RPC over stdin/stdout.</p></div>
+        <div class="card"><h4>Auth</h4><p>Personal Access Token &mdash; Bearer header. Long-lived, no refresh needed.</p></div>
+        <div class="card"><h4>Reliability</h4><p>Auto-retry (3x) on network errors, 429 rate limits, and 5xx server errors with exponential backoff.</p></div>
+        <div class="card"><h4>Performance</h4><p>~30ms cold start. HTTP/2 with 30 idle connections. TLS skip for Zscaler interception.</p></div>
+    </div>
+</section>
+
+<!-- Security -->
+<section>
+    <h2>Security Design</h2>
+    <p style="color:var(--text-dim);margin-bottom:12px;">This server is hardened against accidental or malicious data destruction:</p>
+    <div class="cards">
+        <div class="card"><h4>No DELETE operations</h4><p>The HTTP DELETE method is completely removed from the client. No tool can permanently destroy issues, comments, attachments, or any Jira data.</p></div>
+        <div class="card"><h4>No remove tools</h4><p>Tools that previously removed watchers or labels have been eliminated. Data can only be added or modified, never removed.</p></div>
+        <div class="card"><h4>raw_api_call restricted</h4><p>The raw API escape hatch only supports GET, POST, and PUT. DELETE requests are rejected at the handler level.</p></div>
+        <div class="card"><h4>Archive, not delete</h4><p>The worst destructive action possible is transitioning an issue to &ldquo;Archived&rdquo; status &mdash; which is fully reversible.</p></div>
+    </div>
+</section>
+
+<!-- Troubleshooting -->
+<section>
+    <h2>Troubleshooting</h2>
+    <div class="cards">
+        <div class="card"><h4>Server not showing?</h4><p><code class="ci">Ctrl+Shift+P</code> &rarr; <strong>MCP: Reset All Cached MCP Servers</strong>, then reload window.</p></div>
+        <div class="card"><h4>401 Unauthorized?</h4><p>Your PAT may have expired. Generate a new one at <a href="https://devopsjira.deutsche-boerse.com/secure/ViewProfile.jspa">Profile &rarr; Tokens</a>.</p></div>
+        <div class="card"><h4>403 Forbidden?</h4><p>PAT needs project permissions. Ensure it has access to the project/board you're targeting.</p></div>
+        <div class="card"><h4>Connection error?</h4><p>Ensure you're on the corporate network. TLS skip is enabled for Zscaler. Check JIRA_PROXY if behind additional proxy.</p></div>
+    </div>
+</section>
+
+</div>
+
+<footer>
+    Developed &amp; maintained by the GRC &amp; Legal IT team &mdash;
+    <a href="https://github.deutsche-boerse.de/at384/devopsjira-mcp" target="_blank" rel="noopener noreferrer">GitHub</a> &middot;
+    <a href="https://devopsjira.deutsche-boerse.com/secure/ViewProfile.jspa" target="_blank" rel="noopener noreferrer">Get PAT</a>
+</footer>
+
+</body>
+</html>
